@@ -7,8 +7,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>devDept.Eyeshot</description>
     <copyright>$copyright$</copyright>
-    <tags>Tag1 Tag2</tags>
     <dependencies>
+      <group targetFramework="net472" />
+	  <group targetFramework="net6.0" />
     </dependencies>
   </metadata>
 </package>
