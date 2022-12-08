@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>IdeaStatiCa.devDept</id>
+    <version>1.0.0</version>
+    <authors>MartinPospisil</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>devDept.Eyeshot</description>
+    <copyright>$copyright$</copyright>
+    <tags>Tag1 Tag2</tags>
+    <dependencies>
+    </dependencies>
+  </metadata>
+</package>
