@@ -989,11 +989,12 @@
             Pops the <see cref="T:devDept.Graphics.blendStateType" /> from the stack and sets it as current.
             </summary>
     </member>
-    <member name="M:devDept.Graphics.RenderContextBase.SetState(devDept.Graphics.rasterizerStateType)">
+    <member name="M:devDept.Graphics.RenderContextBase.SetState(devDept.Graphics.rasterizerStateType,System.Boolean)">
       <summary>
             Sets the rasterizer state type preserving the current clockwiseness of the front face.
             </summary>
       <param name="state">The new state</param>
+      <param name="force">If true sets the rasterizer state regardless of the current one, else sets it only if it's different from the current one.</param>
       <returns>The previous state.</returns>
       <seealso cref="P:devDept.Graphics.RenderContextBase.FrontFaceCW" />
     </member>
@@ -2416,6 +2417,21 @@
       <summary>
             Tells if the render context supports non power of two textures.
             </summary>
+    </member>
+    <member name="M:devDept.Graphics.RenderContextBase.GetHeightmapFromGeometry(System.Double[],System.Int32[],devDept.Graphics.DrawPlainGeometryCallBack)">
+      <summary>
+            Computes an heightmap using graphics hardware acceleration.
+            </summary>
+      <param name="transformationMatrix">
+      </param>
+      <param name="viewFrame">
+      </param>
+      <param name="drawCall">
+      </param>
+      <returns>
+      </returns>
+      <exception cref="T:devDept.Graphics.GraphicsException">
+      </exception>
     </member>
     <member name="M:devDept.Graphics.RenderContextBase.UpdateShaders(devDept.Graphics.ShaderParameters)">
       <summary>
@@ -3900,6 +3916,12 @@
             </summary>
       <param name="renderContext">The render context</param>
       <param name="myParams">The parameters object</param>
+    </member>
+    <member name="T:devDept.Graphics.DrawPlainGeometryCallBack">
+      <summary>
+            Delegate of method that draws the entity.
+            </summary>
+      <param name="renderContext">The render context</param>
     </member>
     <member name="T:devDept.Graphics.DrawForShadowMapDelegate">
       <summary>

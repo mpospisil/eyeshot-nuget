@@ -1171,6 +1171,20 @@
       <returns>
       </returns>
     </member>
+    <member name="M:devDept.Geometry.ConstraintSolver.Sketch.AddEllipticalArc(devDept.Geometry.Point2D,devDept.Geometry.Point2D,devDept.Geometry.Point2D,System.Double,System.Double,devDept.Geometry.Vector2D,devDept.Geometry.Vector2D,System.Boolean)">
+      <summary>
+            Adds an elliptical arc to the sketch.
+            </summary>
+      <param name="center">The arc center</param>
+      <param name="startPoint">The arc start </param>
+      <param name="endPoint">The arc center</param>
+      <param name="rx">The arc x radius</param>
+      <param name="ry">The arc y radius</param>
+      <param name="axisX">The arc plane x-axis</param>
+      <param name="axisY">The arc plane y-axis</param>
+      <param name="construction">When true, the arc is added as a construction sketch entity.</param>
+      <returns>The resulting sketch arc entity.</returns>
+    </member>
     <member name="M:devDept.Geometry.ConstraintSolver.Sketch.AddArc(System.Double,System.Double,System.Double,System.Double,System.Double,System.Boolean,System.Boolean)">
       <summary>
             Adds an arc to the sketch.
@@ -1235,7 +1249,8 @@
     </member>
     <member name="M:devDept.Geometry.ConstraintSolver.Sketch.AddConstructionEllipse(System.Double,System.Double,System.Double,System.Double)">
       <summary>
-      </summary>
+            Adds an ellipse to the sketch for construction purpose.
+            </summary>
       <param name="x">
       </param>
       <param name="y">
@@ -1244,12 +1259,12 @@
       </param>
       <param name="ry">
       </param>
-      <returns>
-      </returns>
+      <returns>The resulting sketch ellipse.</returns>
     </member>
     <member name="M:devDept.Geometry.ConstraintSolver.Sketch.AddEllipse(System.Double,System.Double,System.Double,System.Double)">
       <summary>
-      </summary>
+            Adds an ellipse to the sketch.
+            </summary>
       <param name="x">
       </param>
       <param name="y">
@@ -1258,8 +1273,21 @@
       </param>
       <param name="ry">
       </param>
-      <returns>
-      </returns>
+      <returns>The resulting sketch ellipse.</returns>
+    </member>
+    <member name="M:devDept.Geometry.ConstraintSolver.Sketch.AddEllipse(System.Double,System.Double,System.Double,System.Double,devDept.Geometry.Vector2D,devDept.Geometry.Vector2D)">
+      <summary>
+            Adds an ellipse to the sketch.
+            </summary>
+      <param name="x">
+      </param>
+      <param name="y">
+      </param>
+      <param name="rx">
+      </param>
+      <param name="ry">
+      </param>
+      <returns>The resulting sketch ellipse.</returns>
     </member>
     <member name="M:devDept.Geometry.ConstraintSolver.Sketch.AddEllipse(devDept.Geometry.Point2D,System.Double,System.Double)">
       <summary>
@@ -1412,6 +1440,31 @@
       <returns>
       </returns>
     </member>
+    <member name="M:devDept.Geometry.ConstraintSolver.Sketch.Translate(System.Double,System.Double)">
+      <summary>
+            Translates all the entities of the current active sketch.
+            </summary>
+      <param name="x">amount in X</param>
+      <param name="y">Amount in Y</param>
+      <remarks>This method removes all the constraints in sketch.</remarks>
+    </member>
+    <member name="M:devDept.Geometry.ConstraintSolver.Sketch.Rotate(devDept.Geometry.Point2D,System.Double)">
+      <summary>
+            Rotates all the entities of the current active sketch.
+            </summary>
+      <param name="center">The center point.</param>
+      <param name="angle">The rotation angle in radians.</param>
+      <remarks>This method removes all the constraints in sketch.</remarks>
+    </member>
+    <member name="M:devDept.Geometry.ConstraintSolver.Sketch.Scale(devDept.Geometry.Point2D,System.Double,System.Double)">
+      <summary>
+            Scales all the entities of the current active sketch.
+            </summary>
+      <param name="fixedPoint">The fixed point.</param>
+      <param name="factorX">The X scale factor.</param>
+      <param name="factorY">The Y scale factor.</param>
+      <remarks>This method removes all the constraints in sketch.</remarks>
+    </member>
     <member name="M:devDept.Geometry.ConstraintSolver.Sketch.Write(System.String,System.Xml.Formatting)">
       <summary>
             Writes the sketch to the specified file.
@@ -1525,6 +1578,15 @@
              Extrudes the sketch creating a new <see cref="T:devDept.Geometry.Entities.GMesh" />.
             </summary>
       <param name="amount">Extrusion amount.</param>
+      <param name="tolerance">The regeneration tolerance.</param>
+      <param name="meshNature">Sketch needs to be converted to <see cref="T:devDept.Geometry.Entities.GMesh" />, this is the <see cref="T:devDept.Geometry.Entities.GMesh.natureType" /> of the new <see cref="T:devDept.Geometry.Entities.GMesh" /> object</param>
+      <returns>The resulting GMesh object.</returns>
+    </member>
+    <member name="M:devDept.Geometry.ConstraintSolver.Sketch.ExtrudeAsMesh(devDept.Geometry.Interval,System.Double,devDept.Geometry.Entities.GMesh.natureType)">
+      <summary>
+             Extrudes the sketch creating a new <see cref="T:devDept.Geometry.Entities.GMesh" />.
+            </summary>
+      <param name="amount">Extrusion interval.</param>
       <param name="tolerance">The regeneration tolerance.</param>
       <param name="meshNature">Sketch needs to be converted to <see cref="T:devDept.Geometry.Entities.GMesh" />, this is the <see cref="T:devDept.Geometry.Entities.GMesh.natureType" /> of the new <see cref="T:devDept.Geometry.Entities.GMesh" /> object</param>
       <returns>The resulting GMesh object.</returns>
@@ -3742,11 +3804,12 @@
       <param name="length">Length along the igCurve</param>
       <returns>True if the operation is successful, false otherwise.</returns>
     </member>
-    <member name="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Boolean)">
+    <member name="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Double,System.Boolean)">
       <summary>
             Finds all 3D points where the igCurve intersects another given igCurve.
             </summary>
       <param name="C2">The other curve</param>
+      <param name="maxGap">The maximum acceptable gap between two almost touching curves</param>
       <param name="computeParameters">When true intersection points array is filled with InterPoints. False, for a quick computation without curves' parameters data.</param>
       <seealso cref="!:GCurve.Intersection(IGCurve, IGCurve)">GCurve.Intersection(IGCurve, IGCurve) Method</seealso>
       <seealso cref="!:GCurve.Intersection(IGCurve, IGCurve, double)">GCurve.Intersection(IGCurve, IGCurve, double) Method</seealso>
@@ -5499,6 +5562,15 @@
       <param name="tolerance">The regeneration tolerance</param>
       <param name="meshNature">Entity region needs to be converted to <see cref="T:devDept.Geometry.Entities.GMesh" />, this is the <see cref="T:devDept.Geometry.Entities.GMesh.natureType" /> of the new <see cref="T:devDept.Geometry.Entities.GMesh" /> object</param>
       <returns>The resulting Mesh object.</returns>
+    </member>
+    <member name="M:devDept.Geometry.Entities.GRegion.ExtrudeAsMesh(devDept.Geometry.Interval,System.Double,devDept.Geometry.Entities.GMesh.natureType)">
+      <summary>
+            Extrudes the region to create a new GMesh.
+            </summary>
+      <param name="amount">The extrusion interval.</param>
+      <param name="tolerance">The regeneration tolerance. 0 for default value.</param>
+      <param name="meshNature">This is the <see cref="T:devDept.Geometry.Entities.GMesh.natureType" /> of the new <see cref="T:devDept.Geometry.Entities.GMesh" /> object.</param>
+      <returns>&gt;The resulting GMesh object.</returns>
     </member>
     <member name="M:devDept.Geometry.Entities.GRegion.ExtrudeAsSurface(devDept.Geometry.Vector3D)">
       <summary>
@@ -8652,6 +8724,13 @@
       <summary>
             GCurve seam.
             </summary>
+    </member>
+    <member name="M:devDept.Geometry.Entities.GCurve.GetBezierSegments">
+      <summary>
+            Get the curve Bezier segments.
+            </summary>
+      <returns>The list of Bezier segments.</returns>
+      <seealso cref="M:devDept.Geometry.Entities.GCurve.Decompose" />
     </member>
     <member name="M:devDept.Geometry.Entities.GCurve.Project(devDept.Geometry.Point3D,System.Double,System.Boolean,System.Double,System.Double@)">
       <summary>
@@ -12454,12 +12533,13 @@
       <param name="degV">The degree in the V direction</param>
       <param name="splitAtCorners">If True, it splits the curves at corner points. It is useful when the sections are Composite Curves with similar shape, and you want to line up the corners (and curve segments) in the resulting gSurface.</param>
     </member>
-    <member name="M:devDept.Geometry.Entities.GSurface.Gordon(System.Collections.Generic.IList{devDept.Geometry.Entities.IGCurve},System.Collections.Generic.IList{devDept.Geometry.Entities.IGCurve})">
+    <member name="M:devDept.Geometry.Entities.GSurface.Gordon(System.Collections.Generic.IList{devDept.Geometry.Entities.IGCurve},System.Collections.Generic.IList{devDept.Geometry.Entities.IGCurve},System.Double)">
       <summary>
             Creates a Gordon gSurface.
             </summary>
       <param name="lU">The list of non rational curves in the U direction</param>
       <param name="lV">The list of non rational curves in the V direction</param>
+      <param name="maxGap">The maximum acceptable gap between two almost touching curves</param>
       <returns>The resulting gSurface if the operation succeeds, null/Nothing otherwise.</returns>
     </member>
     <member name="M:devDept.Geometry.Entities.GSurface.Gordon(System.Collections.Generic.IList{devDept.Geometry.Entities.IGCurve},System.Collections.Generic.IList{devDept.Geometry.Entities.IGCurve},devDept.Geometry.Point3D[0:,0:])">
@@ -13999,7 +14079,7 @@
       <param name="pln">The plane</param>
       <param name="tol">The tolerance</param>
       <param name="splitsF">The resulting F gSurface splits</param>
-      <param name="splitsG">The resulting gIg gSurface splits</param>
+      <param name="splitsG">The resulting G gSurface splits</param>
       <returns>The intersection failure type.</returns>
     </member>
     <member name="M:devDept.Geometry.Entities.GSurface.TrimBy(devDept.Geometry.Plane,System.Double,devDept.Geometry.Entities.GSurface[]@)">
@@ -14018,7 +14098,7 @@
       <param name="G">The gSurface</param>
       <param name="tol">The tolerance</param>
       <param name="splitF">F gSurface split list</param>
-      <param name="splitG">gIg gSurface split list </param>
+      <param name="splitG">G gSurface split list </param>
       <returns>The intersection failure type.</returns>
     </member>
     <member name="M:devDept.Geometry.Entities.GSurface.Split(System.Collections.Generic.IList{devDept.Geometry.Entities.GSurface},devDept.Geometry.Entities.GSurface,System.Double,devDept.Geometry.Entities.GSurface[]@,devDept.Geometry.Entities.GSurface[]@)">
@@ -14029,7 +14109,7 @@
       <param name="G">The gSurface</param>
       <param name="tol">The tolerance</param>
       <param name="splitF">F gSurface split list</param>
-      <param name="splitG">gIg gSurface split list</param>
+      <param name="splitG">G gSurface split list</param>
       <returns>The intersection failure type.</returns>
     </member>
     <member name="M:devDept.Geometry.Entities.GSurface.Split(System.Collections.Generic.IList{devDept.Geometry.Entities.GSurface},devDept.Geometry.Plane,System.Double,devDept.Geometry.Entities.GSurface[]@,devDept.Geometry.Entities.GSurface[]@)">
@@ -14040,7 +14120,7 @@
       <param name="pln">The plane</param>
       <param name="tol">The tolerance</param>
       <param name="splitF">F gSurface split list</param>
-      <param name="splitG">gIg gSurface split list</param>
+      <param name="splitG">G gSurface split list</param>
       <returns>The intersection failure type.</returns>
     </member>
     <member name="M:devDept.Geometry.Entities.GSurface.SplitBy(devDept.Geometry.Entities.IGCurve,devDept.Geometry.Entities.GSurface@,devDept.Geometry.Entities.GSurface@)">
@@ -14644,7 +14724,7 @@
       <seealso cref="!:GCurve.Intersection(IGCurve, IGCurve)">GCurve.Intersection(IGCurve, IGCurve) Method</seealso>
       <seealso cref="!:GCurve.Intersection(IGCurve, IGCurve, double)">GCurve.Intersection(IGCurve, IGCurve, double) Method</seealso>
       <seealso cref="!:GCurve.Intersection2D(IGCurve, IGCurve, Plane)">GCurve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Boolean)">IGCurve.IntersectWith Method</seealso>
+      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Double,System.Boolean)">IGCurve.IntersectWith Method</seealso>
     </member>
     <member name="M:devDept.Geometry.Utility.IntersectionLineLine(devDept.Geometry.Entities.IGCurve,devDept.Geometry.Entities.IGCurve,devDept.Geometry.Point3D@)">
       <summary>
@@ -14661,7 +14741,7 @@
       <seealso cref="!:GCurve.Intersection(IGCurve, IGCurve)">GCurve.Intersection(IGCurve, IGCurve) Method</seealso>
       <seealso cref="!:GCurve.Intersection(IGCurve, IGCurve, double)">GCurve.Intersection(IGCurve, IGCurve, double) Method</seealso>
       <seealso cref="!:GCurve.Intersection2D(IGCurve, IGCurve, Plane)">GCurve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Boolean)">IGCurve.IntersectWith Method</seealso>
+      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Double,System.Boolean)">IGCurve.IntersectWith Method</seealso>
     </member>
     <member name="M:devDept.Geometry.Utility.IntersectionLineCircle(devDept.Geometry.Entities.GLine,devDept.Geometry.Entities.GCircle,devDept.Geometry.Plane,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">
       <summary>
@@ -14692,7 +14772,7 @@
       <seealso cref="!:GCurve.Intersection(IGCurve, IGCurve)">GCurve.Intersection(IGCurve, IGCurve) Method</seealso>
       <seealso cref="!:GCurve.Intersection(IGCurve, IGCurve, double)">GCurve.Intersection(IGCurve, IGCurve, double) Method</seealso>
       <seealso cref="!:GCurve.Intersection2D(IGCurve, IGCurve, Plane)">GCurve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Boolean)">IGCurve.IntersectWith Method</seealso>
+      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Double,System.Boolean)">IGCurve.IntersectWith Method</seealso>
     </member>
     <member name="M:devDept.Geometry.Utility.IntersectionLineCircle3D(devDept.Geometry.Entities.GLine,devDept.Geometry.Entities.GCircle,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">
       <summary>
@@ -14710,7 +14790,7 @@
       <seealso cref="!:GCurve.Intersection(IGCurve, IGCurve)">GCurve.Intersection(IGCurve, IGCurve) Method</seealso>
       <seealso cref="!:GCurve.Intersection(IGCurve, IGCurve, double)">GCurve.Intersection(IGCurve, IGCurve, double) Method</seealso>
       <seealso cref="!:GCurve.Intersection2D(IGCurve, IGCurve, Plane)">GCurve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Boolean)">IGCurve.IntersectWith Method</seealso>
+      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Double,System.Boolean)">IGCurve.IntersectWith Method</seealso>
     </member>
     <member name="M:devDept.Geometry.Utility.IntersectionCircleCircle(devDept.Geometry.Entities.GCircle,devDept.Geometry.Entities.GCircle,devDept.Geometry.Plane,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">
       <summary>
@@ -14729,7 +14809,7 @@
       <seealso cref="!:GCurve.Intersection(IGCurve, IGCurve)">GCurve.Intersection(IGCurve, IGCurve) Method</seealso>
       <seealso cref="!:GCurve.Intersection(IGCurve, IGCurve, double)">GCurve.Intersection(IGCurve, IGCurve, double) Method</seealso>
       <seealso cref="!:GCurve.Intersection2D(IGCurve, IGCurve, Plane)">GCurve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Boolean)">IGCurve.IntersectWith Method</seealso>
+      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Double,System.Boolean)">IGCurve.IntersectWith Method</seealso>
     </member>
     <member name="M:devDept.Geometry.Utility.IntersectionCircleCircle3D(devDept.Geometry.Entities.GCircle,devDept.Geometry.Entities.GCircle,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">
       <summary>
@@ -14747,7 +14827,7 @@
       <seealso cref="!:GCurve.Intersection(IGCurve, IGCurve)">GCurve.Intersection(IGCurve, IGCurve) Method</seealso>
       <seealso cref="!:GCurve.Intersection(IGCurve, IGCurve, double)">GCurve.Intersection(IGCurve, IGCurve, double) Method</seealso>
       <seealso cref="!:GCurve.Intersection2D(IGCurve, IGCurve, Plane)">GCurve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Boolean)">IGCurve.IntersectWith Method</seealso>
+      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Double,System.Boolean)">IGCurve.IntersectWith Method</seealso>
     </member>
     <member name="M:devDept.Geometry.Utility.Intersection2D(devDept.Geometry.Entities.IGCurve,devDept.Geometry.Entities.IGCurve,devDept.Geometry.Plane)">
       <summary>
@@ -14759,7 +14839,7 @@
       <param name="plane">The plane where the two igCurves lay</param>
       <remarks>For PROFESSIONAL edition, this method doesn't work for Ellipses, Elliptical Arcs and GCompositeIgCurve containing Ellipses or Elliptical Arcs.</remarks>
     </member>
-    <member name="M:devDept.Geometry.Utility.Intersection(devDept.Geometry.Entities.IGCurve,devDept.Geometry.Entities.IGCurve,System.Boolean)">
+    <member name="M:devDept.Geometry.Utility.Intersection(devDept.Geometry.Entities.IGCurve,devDept.Geometry.Entities.IGCurve,System.Double,System.Boolean)">
       <summary>
             Finds all 3D points where the provided curves intersect.
             </summary>
@@ -14769,7 +14849,7 @@
       <param name="computeParameters">When true intersection points array is filled with InterPoints. False, for a quick computation without curves' paramters data.</param>
       <seealso cref="M:devDept.Geometry.Utility.Intersection(devDept.Geometry.Entities.IGCurve,devDept.Geometry.Entities.IGCurve,System.Double)">GCurve.Intersection(ICurve, ICurve, double) Method</seealso>
       <seealso cref="M:devDept.Geometry.Utility.Intersection2D(devDept.Geometry.Entities.IGCurve,devDept.Geometry.Entities.IGCurve,devDept.Geometry.Plane)">GCurve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Boolean)">ICurve.IntersectWith Method</seealso>
+      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Double,System.Boolean)">ICurve.IntersectWith Method</seealso>
       <seealso cref="M:devDept.Geometry.Utility.IntersectionLineLine(devDept.Geometry.Entities.IGCurve,devDept.Geometry.Entities.IGCurve,devDept.Geometry.Point3D@)">CompositeCurve.IntersectionLineLine Method</seealso>
       <seealso cref="M:devDept.Geometry.Utility.IntersectionCircleCircle(devDept.Geometry.Entities.GCircle,devDept.Geometry.Entities.GCircle,devDept.Geometry.Plane,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">CompositeCurve.IntersectionCircleCircle Method</seealso>
       <seealso cref="M:devDept.Geometry.Utility.IntersectionCircleCircle3D(devDept.Geometry.Entities.GCircle,devDept.Geometry.Entities.GCircle,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">CompositeCurve.IntersectionCircleCircle3D Method</seealso>
@@ -14784,9 +14864,9 @@
       <param name="C1">The first curve</param>
       <param name="C2">The second curve</param>
       <param name="maxGap">Maximum distance between curves</param>
-      <seealso cref="M:devDept.Geometry.Utility.Intersection(devDept.Geometry.Entities.IGCurve,devDept.Geometry.Entities.IGCurve,System.Boolean)">GCurve.Intersection(IGCurve, IGCurve) Method</seealso>
+      <seealso cref="!:Intersection(IGCurve, IGCurve, bool)">GCurve.Intersection(IGCurve, IGCurve) Method</seealso>
       <seealso cref="M:devDept.Geometry.Utility.Intersection2D(devDept.Geometry.Entities.IGCurve,devDept.Geometry.Entities.IGCurve,devDept.Geometry.Plane)">GCurve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Boolean)">IGCurve.IntersectWith Method</seealso>
+      <seealso cref="M:devDept.Geometry.Entities.IGCurve.IntersectWith(devDept.Geometry.Entities.IGCurve,System.Double,System.Boolean)">IGCurve.IntersectWith Method</seealso>
       <seealso cref="M:devDept.Geometry.Utility.IntersectionLineLine(devDept.Geometry.Entities.IGCurve,devDept.Geometry.Entities.IGCurve,devDept.Geometry.Point3D@)">GCompositeCurve.IntersectionLineLine Method</seealso>
       <seealso cref="M:devDept.Geometry.Utility.IntersectionCircleCircle(devDept.Geometry.Entities.GCircle,devDept.Geometry.Entities.GCircle,devDept.Geometry.Plane,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">GCompositeCurve.IntersectionCircleCircle Method</seealso>
       <seealso cref="M:devDept.Geometry.Utility.IntersectionCircleCircle3D(devDept.Geometry.Entities.GCircle,devDept.Geometry.Entities.GCircle,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">GCompositeCurve.IntersectionCircleCircle3D Method</seealso>
@@ -16538,6 +16618,20 @@
       <typeparam name="T">The array items type</typeparam>
       <param name="array">The array</param>
     </member>
+    <member name="M:devDept.Geometry.Utility.RotateLeft``1(System.Collections.Generic.IList{``0})">
+      <summary>
+            Rotates the list left.
+            </summary>
+      <typeparam name="T">The list items type</typeparam>
+      <param name="array">The list</param>
+    </member>
+    <member name="M:devDept.Geometry.Utility.RotateRight``1(System.Collections.Generic.IList{``0})">
+      <summary>
+            Rotates the list right.
+            </summary>
+      <typeparam name="T">The list items type</typeparam>
+      <param name="array">The list</param>
+    </member>
     <member name="M:devDept.Geometry.Utility.GetRotationAxisAndAngle(devDept.Geometry.Vector3D,devDept.Geometry.Vector3D,devDept.Geometry.Vector3D@,System.Double@)">
       <summary>
             Returns the rotation axis and the angle to rotate from one vector to another. 
@@ -16733,6 +16827,15 @@
             If true, T-intersections are considered; otherwise, they are ignored
             </param>
       <returns>True if at least one intersection is found, false otherwise.</returns>
+    </member>
+    <member name="M:devDept.Geometry.Utility.GetLengthAlongVector(devDept.Geometry.Point3D,devDept.Geometry.Vector3D,System.Collections.Generic.IList{devDept.Geometry.Entities.IGCurve})">
+      <summary>
+            Computes the linear and angular span of the trim loops.
+            </summary>
+      <param name="origin">The reference origin point.</param>
+      <param name="vector">The vector along which compute the length.</param>
+      <param name="trimLoops">A list of loops as composite igCurves or unrolled individual segments.</param>
+      <returns>The linear domain along the plane Z axis.</returns>
     </member>
     <member name="T:devDept.Geometry.PointExtender">
       <summary>Point3D Extender.</summary>

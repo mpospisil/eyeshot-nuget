@@ -2350,6 +2350,15 @@
       <param name="meshNature">Entity region needs to be converted to <see cref="T:devDept.Eyeshot.Entities.Mesh" />, this is the <see cref="T:devDept.Geometry.Entities.GMesh.natureType" /> of the new <see cref="T:devDept.Eyeshot.Entities.Mesh" /> object.</param>
       <returns>The resulting Mesh object.</returns>
     </member>
+    <member name="M:devDept.Eyeshot.Entities.SketchEntity.ExtrudeAsMesh(devDept.Geometry.Interval,System.Double,devDept.Geometry.Entities.GMesh.natureType)">
+      <summary>
+             Extrudes a sketch creating a new <see cref="T:devDept.Eyeshot.Entities.Mesh" />.
+            </summary>
+      <param name="amount">Extrusion interval.</param>
+      <param name="tolerance">The regeneration tolerance.</param>
+      <param name="meshNature">Entity region needs to be converted to <see cref="T:devDept.Eyeshot.Entities.Mesh" />, this is the <see cref="T:devDept.Geometry.Entities.GMesh.natureType" /> of the new <see cref="T:devDept.Eyeshot.Entities.Mesh" /> object.</param>
+      <returns>The resulting Mesh object.</returns>
+    </member>
     <member name="M:devDept.Eyeshot.Entities.SketchEntity.ExtrudeAsMesh``1(devDept.Geometry.Vector3D,System.Double,devDept.Geometry.Entities.GMesh.natureType)">
       <summary>
              Extrudes a sketch creating a new <see cref="T:devDept.Eyeshot.Entities.Mesh" />.
@@ -7668,6 +7677,15 @@
       <param name="meshNature">Entity region needs to be converted to <see cref="T:devDept.Eyeshot.Entities.Mesh" />, this is the <see cref="T:devDept.Geometry.Entities.GMesh.natureType" /> of the new <see cref="T:devDept.Eyeshot.Entities.Mesh" /> object</param>
       <returns>The resulting Mesh object.</returns>
     </member>
+    <member name="M:devDept.Eyeshot.Entities.Region.ExtrudeAsMesh(devDept.Geometry.Interval,System.Double,devDept.Geometry.Entities.GMesh.natureType)">
+      <summary>
+             Extrudes a region creating a new <see cref="T:devDept.Eyeshot.Entities.Mesh" />.
+            </summary>
+      <param name="amount">Extrusion interval</param>
+      <param name="tolerance">The regeneration tolerance</param>
+      <param name="meshNature">Entity region needs to be converted to <see cref="T:devDept.Eyeshot.Entities.Mesh" />, this is the <see cref="T:devDept.Geometry.Entities.GMesh.natureType" /> of the new <see cref="T:devDept.Eyeshot.Entities.Mesh" /> object</param>
+      <returns>The resulting Mesh object.</returns>
+    </member>
     <member name="M:devDept.Eyeshot.Entities.Region.ExtrudeAsSurface(devDept.Geometry.Vector3D)">
       <summary>
             Extrudes a region creating a new <see cref="T:devDept.Eyeshot.Entities.Surface" />.
@@ -10236,6 +10254,7 @@
       <remarks>
         <para>Original objects must <b>not</b> intersect and faces must be compatible (equal and opposite).</para>
         <para>You may need to call <see cref="M:devDept.Eyeshot.Entities.Brep.Rebuild(System.Double,System.Boolean)" /> on original objects to rebuild parametric faces.</para>
+        <para>Will fail (not yet supported), when an object is completely inside the other and <paramref name="materials" /> is not null/Nothing.</para>
       </remarks>
       <param name="a">The first Brep object</param>
       <param name="b">The second Brep object</param>
@@ -10251,6 +10270,7 @@
       <remarks>
         <para>Original objects must <b>not</b> intersect and faces must be compatible (equal and opposite).</para>
         <para>You may need to call <see cref="M:devDept.Eyeshot.Entities.Brep.Rebuild(System.Double,System.Boolean)" /> on original objects to rebuild parametric faces.</para>
+        <para>Will fail (not yet supported), when an object is completely inside the other and <paramref name="materials" /> is not null/Nothing.</para>
       </remarks>
       <param name="breps">The list of Breps objects to merge</param>
       <param name="materials">The materials collection. When defined, the resulting Brep faces colors will conserve the input objects colors.</param>
@@ -13426,7 +13446,7 @@
             Call <see cref="M:devDept.Eyeshot.EntityList.Regen(devDept.Eyeshot.RegenOptions)" /> after changing this value.
             </remarks>
     </member>
-    <member name="M:devDept.Eyeshot.Entities.Dimension.PrepareText(System.String,devDept.Eyeshot.RegenParams,System.Double@,System.Double@,System.Double@,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">
+    <member name="M:devDept.Eyeshot.Entities.Dimension.PrepareText(devDept.Eyeshot.RegenParams,System.Double@,System.Double@,System.Double@,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">
       <summary>
             Prepare 5 text ( prefix, dimText, upperValue, lowerValue, suffix) that compose the whole dimension text
             </summary>
@@ -13948,6 +13968,12 @@
             Gets or sets the radius of the Bar.
             </summary>
     </member>
+    <member name="M:devDept.Eyeshot.Entities.Bar.ConvertToSurface">
+      <summary>
+            Returns a surface representation of this entity.
+            </summary>
+      <returns>The surface object.</returns>
+    </member>
     <member name="M:devDept.Eyeshot.Entities.Bar.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
       <summary>
             Constructor for deserializing objects.
@@ -14432,12 +14458,11 @@
       <param name="length">Length along the curve</param>
       <returns>True if the operation is successful, false otherwise.</returns>
     </member>
-    <member name="M:devDept.Eyeshot.Entities.ICurve.IntersectWith(devDept.Eyeshot.Entities.ICurve,System.Boolean)">
+    <member name="M:devDept.Eyeshot.Entities.ICurve.IntersectWith(devDept.Eyeshot.Entities.ICurve)">
       <summary>
             Finds all 3D points where the curve intersects another given curve.
             </summary>
       <param name="C2">The other curve</param>
-      <param name="computeParameters">When true intersection points array is filled with InterPoints. False, for a quick computation without curves' paramters data.</param>
       <seealso cref="!:Curve.Intersection(ICurve, ICurve)">Curve.Intersection(ICurve, ICurve) Method</seealso>
       <seealso cref="!:Curve.Intersection(ICurve, ICurve, double)">Curve.Intersection(ICurve, ICurve, double) Method</seealso>
       <seealso cref="!:Curve.Intersection2D(ICurve, ICurve, Plane)">Curve.Intersection2D Method</seealso>
@@ -14754,6 +14779,7 @@
       <param name="line">Extrusion direction and length as <see cref="T:devDept.Eyeshot.Entities.Line" /></param>
       <param name="tolerance">The regeneration tolerance. 0 for default value</param>
       <returns>The resulting Brep object.</returns>
+      <remarks>The ICurve must be planar in order for the operation to succeed.</remarks>
     </member>
     <member name="M:devDept.Eyeshot.Entities.ICurve.ExtrudeAsBrep(System.Double,System.Double,System.Double,System.Double)">
       <summary>
@@ -14764,6 +14790,7 @@
       <param name="dz">Extrusion amount along the Z axis</param>
       <param name="tolerance">The regeneration tolerance. 0 for default value</param>
       <returns>The resulting Brep object.</returns>
+      <remarks>The ICurve must be planar in order for the operation to succeed.</remarks>
     </member>
     <member name="M:devDept.Eyeshot.Entities.ICurve.ExtrudeAsBrep(devDept.Geometry.Vector3D,System.Double,System.Double)">
       <summary>
@@ -14773,6 +14800,7 @@
       <param name="draftAngleInRadians">Signed draft angle in radians</param>
       <param name="tolerance">The regeneration tolerance. Required for non-perpendicular extrusion directions. 0 for default value</param>
       <returns>The resulting Brep object.</returns>
+      <remarks>The ICurve must be planar in order for the operation to succeed.</remarks>
     </member>
     <member name="M:devDept.Eyeshot.Entities.ICurve.RevolveAsSurface(System.Double,System.Double,devDept.Geometry.Vector3D,devDept.Geometry.Point3D)">
       <summary>
@@ -15311,6 +15339,12 @@
             Creates a deep copy of this joint.
             </summary>
       <returns>The new joint object.</returns>
+    </member>
+    <member name="M:devDept.Eyeshot.Entities.Joint.ConvertToSurface">
+      <summary>
+            Returns a surface representation of this entity.
+            </summary>
+      <returns>The surface object.</returns>
     </member>
     <member name="M:devDept.Eyeshot.Entities.Joint.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
       <summary>
@@ -18471,7 +18505,7 @@
             </summary>
       <param name="entity">The entity to be added.</param>
       <param name="color">The entity color</param>
-      <remarks>The entity will be added to the "Default" layer or to the first one if missing.</remarks>
+      <remarks>The entity will be added to the "Default" layer or to the first one if missing. Entities with more than 100K vertices or more than 50K indices (i.e. 16K triangles) are not supported.</remarks>
     </member>
     <member name="M:devDept.Eyeshot.TempEntityList.AddRange``1(System.Collections.Generic.IEnumerable{``0},System.Drawing.Color)">
       <summary>
@@ -20528,6 +20562,31 @@
       <param name="endPoint">The end point.</param>
       <returns>The newly added arc.</returns>
     </member>
+    <member name="M:devDept.Eyeshot.SketchManager.Translate(System.Double,System.Double)">
+      <summary>
+            Translates all the entities of the current active sketch.
+            </summary>
+      <param name="x">amount in X</param>
+      <param name="y">Amount in Y</param>
+      <remarks> This method removes all the constraints in sketch.</remarks>
+    </member>
+    <member name="M:devDept.Eyeshot.SketchManager.Rotate(devDept.Geometry.Point2D,System.Double)">
+      <summary>
+            Rotates all the entities of the current active sketch.
+            </summary>
+      <param name="center">The center point.</param>
+      <param name="angle">The rotation angle in radians.</param>
+      <remarks>This method removes all the constraints in sketch.</remarks>
+    </member>
+    <member name="M:devDept.Eyeshot.SketchManager.Scale(devDept.Geometry.Point2D,System.Double,System.Double)">
+      <summary>
+            Scales all the entities of the current active sketch.
+            </summary>
+      <param name="fixedPoint">The fixed point.</param>
+      <param name="factorX">The X scale factor.</param>
+      <param name="factorY">The Y scale factor.</param>
+      <remarks>This method removes all the constraints in sketch.</remarks>
+    </member>
     <member name="M:devDept.Eyeshot.SketchManager.PreparesEntitiesForMirror(System.Collections.Generic.List{devDept.Eyeshot.Entities.Entity})">
       <summary>
             Prepares the input list of entities for the mirror constraint. 
@@ -20597,6 +20656,17 @@
       <param name="radius">The arc radius</param>
       <param name="slotRadius">The slot radius</param>
       <returns>The array of sketch entities representing the circular slot: bottom arc, outer arc, top arc, inner arc.</returns>
+    </member>
+    <member name="M:devDept.Eyeshot.SketchManager.AddChamfer(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,System.Boolean,System.Boolean,System.Double)">
+      <summary>
+            Add a chamfer between the two specified curves. The two curves
+            are required to be intersecting. 
+            </summary>
+      <param name="c1">First curve</param>
+      <param name="c2">Second curve</param>
+      <param name="flip1">Flips first curve direction</param>
+      <param name="flip2">Flips second curve direction</param>
+      <param name="distance">The chamfer distance</param>
     </member>
     <member name="M:devDept.Eyeshot.SketchManager.AddFillet(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,System.Boolean,System.Boolean,System.Double)">
       <summary>
@@ -21023,6 +21093,16 @@
       <param name="polygonCenter">The polygon center.</param>
       <param name="angle">The angle of rotation of the polygon with respect its center.</param>
       <returns>The array of lines representing the polygon.</returns>
+    </member>
+    <member name="M:devDept.Eyeshot.SketchManager.AddEntities(System.Collections.Generic.IList{devDept.Eyeshot.Entities.Entity},System.Boolean)">
+      <summary>
+             Imports a list of entities inside the current sketch.
+             </summary>
+      <param name="entities">The list of entities to import.</param>
+      <param name="fix">TWhen true, the entities are fixed.</param>
+      <remarks>The entity list must contain only exploded entities on the XY Plane.
+             To import BlockReferences you must first call  <see cref="M:devDept.Eyeshot.Entities.BlockReference.ExplodeDeep(devDept.Eyeshot.BlockKeyedCollection,System.Boolean)" />.
+             To import Texts, you must first call <see cref="M:devDept.Eyeshot.Entities.Text.ConvertToCurves(devDept.Eyeshot.Workspace)" />.</remarks>
     </member>
     <member name="M:devDept.Eyeshot.SketchManager.IsValid(devDept.Geometry.ConstraintSolver.Constraint)">
       <summary>
@@ -25163,11 +25243,12 @@
             Moves the tool to the next <see cref="P:devDept.Eyeshot.Manufacture.SimulationToolpath" /> motion.
             </summary>
     </member>
-    <member name="M:devDept.Eyeshot.Manufacture.GoToMotion(System.Int32)">
+    <member name="M:devDept.Eyeshot.Manufacture.GoToMotion(System.Int32,System.Boolean)">
       <summary>
             Moves the tool at the beginning of the <see cref="P:devDept.Eyeshot.Manufacture.SimulationToolpath" />.
             </summary>
       <param name="index">The motion index</param>
+      <param name="cut">When true, the stock is cut during the movement.</param>
       <seealso cref="M:devDept.Eyeshot.Workspace.Invalidate" />
     </member>
     <member name="M:devDept.Eyeshot.Manufacture.GoToEnd">
@@ -25331,6 +25412,11 @@
       <param name="doWorkEventArgs">The work unit even arguments</param>
       <returns>The resulting array of tuples.</returns>
       <seealso cref="T:devDept.WorkUnit" />
+    </member>
+    <member name="T:devDept.Eyeshot.Milling.Contour3D.SortedTupleBag`2">
+      <summary>
+            from: https://stackoverflow.com/a/15440119/261010 
+            </summary>
     </member>
     <member name="T:devDept.Eyeshot.Milling.EndMill">
       <summary>
@@ -26015,18 +26101,20 @@
             Computes exact bounding rectangle for piecewise linear or full circle outer contours, approximated bounding rectangle on tessellation for all other shapes.
             </summary>
     </member>
-    <member name="M:devDept.Eyeshot.Milling.Stock.GetSimulationStock(System.Int32)">
+    <member name="M:devDept.Eyeshot.Milling.Stock.GetSimulationStock(System.Int32,devDept.Eyeshot.Workspace)">
       <summary>
             Creates a simulation stock entity based on this stock.
             </summary>
-      <param name="gridStep">The z-map grid vertex count</param>
+      <param name="vertexCount">The z-map grid vertex count.</param>
+      <param name="workspace">When provided allows some heavy computations to be performed on the GPU.</param>
       <returns>A simulation stock object.</returns>
     </member>
-    <member name="M:devDept.Eyeshot.Milling.Stock.GetSimulationStock(System.Double)">
+    <member name="M:devDept.Eyeshot.Milling.Stock.GetSimulationStock(System.Double,devDept.Eyeshot.Workspace)">
       <summary>
             Creates a simulation stock entity based on this stock.
             </summary>
       <param name="gridStep">The z-map grid step</param>
+      <param name="workspace">When provided allows some heavy computations to be performed on the GPU.</param>
       <returns>A simulation stock object.</returns>
     </member>
     <member name="M:devDept.Eyeshot.Milling.Stock.HasBoundary">
@@ -26108,6 +26196,16 @@
             </summary>
       <param name="cp">Compile parameters. When defined, <see cref="M:devDept.Eyeshot.Entities.Entity.Compile(devDept.Eyeshot.CompileParams)">compilation</see> is performed as well.</param>
       <seealso cref="M:devDept.Eyeshot.Milling.SimulationStock.Cut(devDept.Geometry.Point3D,devDept.Geometry.Point3D,devDept.Eyeshot.Milling.EndMill,devDept.Eyeshot.CompileParams)" />
+    </member>
+    <member name="P:devDept.Eyeshot.Milling.SimulationStock.RowCount">
+      <summary>
+            Gets the number of grid rows (cells in the Y direction).
+            </summary>
+    </member>
+    <member name="P:devDept.Eyeshot.Milling.SimulationStock.ColCount">
+      <summary>
+            Gets the number of grid columns (cells in the X direction).
+            </summary>
     </member>
     <member name="M:devDept.Eyeshot.Milling.SimulationStock.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
       <summary>
@@ -44333,10 +44431,6 @@
             Graphics rendering context. Available after window handle (HWND) initialization only.
             </summary>
     </member>
-    <member name="P:devDept.Eyeshot.WorkspaceBase.RightToLeft">
-      <inheritdoc />
-      <exception cref="T:devDept.Eyeshot.EyeshotException">Thrown when you try to set the <see cref="P:devDept.Eyeshot.WorkspaceBase.RightToLeft" /> property.</exception>
-    </member>
     <member name="M:devDept.Eyeshot.WorkspaceBase.LoadCursors">
       <summary>
             For internal use only.
@@ -47581,6 +47675,7 @@
             Creates an image without locking the input file.
             </summary>
       <param name="fileName">The file name.</param>
+      <remarks>It returns null if the file format is not supported.</remarks>
     </member>
     <member name="M:devDept.Geometry.UtilityEx.MakeGrayscale(System.Drawing.Bitmap)">
       <summary>
@@ -47956,7 +48051,7 @@
       <seealso cref="!:Intersection(ICurve, ICurve)">Curve.Intersection(ICurve, ICurve) Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.Intersection(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,System.Double)">Curve.Intersection(ICurve, ICurve, double) Method</seealso>
       <seealso cref="!:Intersection2D(ICurve, ICurve, Plane)">Curve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Eyeshot.Entities.ICurve.IntersectWith(devDept.Eyeshot.Entities.ICurve,System.Boolean)">ICurve.IntersectWith Method</seealso>
+      <seealso cref="!:ICurve.IntersectWith(ICurve, bool)">ICurve.IntersectWith Method</seealso>
     </member>
     <member name="M:devDept.Geometry.UtilityEx.IntersectionLineLine(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,devDept.Geometry.Point3D@)">
       <summary>
@@ -47973,7 +48068,7 @@
       <seealso cref="!:Intersection(ICurve, ICurve)">Curve.Intersection(ICurve, ICurve) Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.Intersection(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,System.Double)">Curve.Intersection(ICurve, ICurve, double) Method</seealso>
       <seealso cref="!:Intersection2D(ICurve, ICurve, Plane)">Curve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Eyeshot.Entities.ICurve.IntersectWith(devDept.Eyeshot.Entities.ICurve,System.Boolean)">ICurve.IntersectWith Method</seealso>
+      <seealso cref="!:ICurve.IntersectWith(ICurve, bool)">ICurve.IntersectWith Method</seealso>
     </member>
     <member name="M:devDept.Geometry.UtilityEx.IntersectionLineCircle(devDept.Eyeshot.Entities.Line,devDept.Eyeshot.Entities.Circle,devDept.Geometry.Plane,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">
       <summary>
@@ -48004,7 +48099,7 @@
       <seealso cref="!:Intersection(ICurve, ICurve)">Curve.Intersection(ICurve, ICurve) Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.Intersection(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,System.Double)">Curve.Intersection(ICurve, ICurve, double) Method</seealso>
       <seealso cref="!:Intersection2D(ICurve, ICurve, Plane)">Curve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Eyeshot.Entities.ICurve.IntersectWith(devDept.Eyeshot.Entities.ICurve,System.Boolean)">ICurve.IntersectWith Method</seealso>
+      <seealso cref="!:ICurve.IntersectWith(ICurve, bool)">ICurve.IntersectWith Method</seealso>
     </member>
     <member name="M:devDept.Geometry.UtilityEx.IntersectionLineCircle3D(devDept.Eyeshot.Entities.Line,devDept.Eyeshot.Entities.Circle,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">
       <summary>
@@ -48022,7 +48117,7 @@
       <seealso cref="!:Intersection(ICurve, ICurve)">Curve.Intersection(ICurve, ICurve) Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.Intersection(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,System.Double)">Curve.Intersection(ICurve, ICurve, double) Method</seealso>
       <seealso cref="!:Intersection2D(ICurve, ICurve, Plane)">Curve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Eyeshot.Entities.ICurve.IntersectWith(devDept.Eyeshot.Entities.ICurve,System.Boolean)">ICurve.IntersectWith Method</seealso>
+      <seealso cref="!:ICurve.IntersectWith(ICurve, bool)">ICurve.IntersectWith Method</seealso>
     </member>
     <member name="M:devDept.Geometry.UtilityEx.IntersectionCircleCircle(devDept.Eyeshot.Entities.Circle,devDept.Eyeshot.Entities.Circle,devDept.Geometry.Plane,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">
       <summary>
@@ -48041,7 +48136,7 @@
       <seealso cref="!:Intersection(ICurve, ICurve)">Curve.Intersection(ICurve, ICurve) Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.Intersection(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,System.Double)">Curve.Intersection(ICurve, ICurve, double) Method</seealso>
       <seealso cref="!:Intersection2D(ICurve, ICurve, Plane)">Curve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Eyeshot.Entities.ICurve.IntersectWith(devDept.Eyeshot.Entities.ICurve,System.Boolean)">ICurve.IntersectWith Method</seealso>
+      <seealso cref="!:ICurve.IntersectWith(ICurve, bool)">ICurve.IntersectWith Method</seealso>
     </member>
     <member name="M:devDept.Geometry.UtilityEx.IntersectionCircleCircle3D(devDept.Eyeshot.Entities.Circle,devDept.Eyeshot.Entities.Circle,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">
       <summary>
@@ -48059,19 +48154,20 @@
       <seealso cref="!:Intersection(ICurve, ICurve)">Curve.Intersection(ICurve, ICurve) Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.Intersection(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,System.Double)">Curve.Intersection(ICurve, ICurve, double) Method</seealso>
       <seealso cref="!:Intersection2D(ICurve, ICurve, Plane)">Curve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Eyeshot.Entities.ICurve.IntersectWith(devDept.Eyeshot.Entities.ICurve,System.Boolean)">ICurve.IntersectWith Method</seealso>
+      <seealso cref="!:ICurve.IntersectWith(ICurve, bool)">ICurve.IntersectWith Method</seealso>
     </member>
-    <member name="M:devDept.Geometry.UtilityEx.Intersection(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,System.Boolean)">
+    <member name="M:devDept.Geometry.UtilityEx.Intersection(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,System.Double,System.Boolean)">
       <summary>
             Finds all 3D points where the provided curves intersect.
             </summary>
       <returns>The list of intersection points.</returns>
       <param name="C1">The first curve</param>
       <param name="C2">The second curve</param>
+      <param name="maxGap">The maximum acceptable gap between two almost touching curves</param>
       <param name="computeParameters">When true intersection points array is filled with InterPoints. False, for a quick computation without curves' paramters data.</param>
       <seealso cref="M:devDept.Geometry.UtilityEx.Intersection(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,System.Double)">Curve.Intersection(ICurve, ICurve, double) Method</seealso>
       <seealso cref="!:Intersection2D(ICurve, ICurve, Plane)">Curve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Eyeshot.Entities.ICurve.IntersectWith(devDept.Eyeshot.Entities.ICurve,System.Boolean)">ICurve.IntersectWith Method</seealso>
+      <seealso cref="!:ICurve.IntersectWith(ICurve, bool)">ICurve.IntersectWith Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.IntersectionLineLine(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,devDept.Geometry.Point3D@)">CompositeCurve.IntersectionLineLine Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.IntersectionCircleCircle(devDept.Eyeshot.Entities.Circle,devDept.Eyeshot.Entities.Circle,devDept.Geometry.Plane,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">CompositeCurve.IntersectionCircleCircle Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.IntersectionCircleCircle3D(devDept.Eyeshot.Entities.Circle,devDept.Eyeshot.Entities.Circle,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">CompositeCurve.IntersectionCircleCircle3D Method</seealso>
@@ -48088,7 +48184,7 @@
       <param name="maxGap">Maximum distance between curves</param>
       <seealso cref="!:Intersection(ICurve, ICurve)">Curve.Intersection(ICurve, ICurve) Method</seealso>
       <seealso cref="!:Intersection2D(ICurve, ICurve, Plane)">Curve.Intersection2D Method</seealso>
-      <seealso cref="M:devDept.Eyeshot.Entities.ICurve.IntersectWith(devDept.Eyeshot.Entities.ICurve,System.Boolean)">ICurve.IntersectWith Method</seealso>
+      <seealso cref="!:ICurve.IntersectWith(ICurve, bool)">ICurve.IntersectWith Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.IntersectionLineLine(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,devDept.Geometry.Point3D@)">CompositeCurve.IntersectionLineLine Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.IntersectionCircleCircle(devDept.Eyeshot.Entities.Circle,devDept.Eyeshot.Entities.Circle,devDept.Geometry.Plane,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">CompositeCurve.IntersectionCircleCircle Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.IntersectionCircleCircle3D(devDept.Eyeshot.Entities.Circle,devDept.Eyeshot.Entities.Circle,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">CompositeCurve.IntersectionCircleCircle3D Method</seealso>
@@ -48104,7 +48200,7 @@
       <param name="C2">The second curve</param>
       <param name="plane">The plane where the two curves lay</param>
       <seealso cref="M:devDept.Geometry.UtilityEx.Intersection(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,System.Double)">Curve.Intersection(ICurve, ICurve, double) Method</seealso>
-      <seealso cref="M:devDept.Eyeshot.Entities.ICurve.IntersectWith(devDept.Eyeshot.Entities.ICurve,System.Boolean)">ICurve.IntersectWith Method</seealso>
+      <seealso cref="!:ICurve.IntersectWith(ICurve, bool)">ICurve.IntersectWith Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.IntersectionLineLine(devDept.Eyeshot.Entities.ICurve,devDept.Eyeshot.Entities.ICurve,devDept.Geometry.Point3D@)">CompositeCurve.IntersectionLineLine Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.IntersectionCircleCircle(devDept.Eyeshot.Entities.Circle,devDept.Eyeshot.Entities.Circle,devDept.Geometry.Plane,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">CompositeCurve.IntersectionCircleCircle Method</seealso>
       <seealso cref="M:devDept.Geometry.UtilityEx.IntersectionCircleCircle3D(devDept.Eyeshot.Entities.Circle,devDept.Eyeshot.Entities.Circle,devDept.Geometry.Point3D@,devDept.Geometry.Point3D@)">CompositeCurve.IntersectionCircleCircle3D Method</seealso>

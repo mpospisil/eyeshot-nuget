@@ -11,8 +11,8 @@
           "Microsoft.CSharp": "4.7.0",
           "Microsoft.Windows.Compatibility": "6.0.0",
           "System.Resources.Extensions": "6.0.0",
-          "devDept.Geometry.v2022": "2022.3.544.0",
-          "devDept.Graphics.Shaders.v2022": "2022.3.544.0"
+          "devDept.Geometry.v2022": "2022.3.625.0",
+          "devDept.Graphics.Shaders.v2022": "2022.3.625.0"
         },
         "runtime": {
           "devDept.Graphics.Win.v2022.dll": {}
@@ -710,19 +710,19 @@
           "System.Drawing.Common": "6.0.0"
         }
       },
-      "devDept.Geometry.v2022/2022.3.544.0": {
+      "devDept.Geometry.v2022/2022.3.625.0": {
         "runtime": {
           "devDept.Geometry.v2022.dll": {
-            "assemblyVersion": "2022.3.544.0",
-            "fileVersion": "2022.3.544.0"
+            "assemblyVersion": "2022.3.625.0",
+            "fileVersion": "2022.3.625.0"
           }
         }
       },
-      "devDept.Graphics.Shaders.v2022/2022.3.544.0": {
+      "devDept.Graphics.Shaders.v2022/2022.3.625.0": {
         "runtime": {
           "devDept.Graphics.Shaders.v2022.dll": {
-            "assemblyVersion": "2022.3.544.0",
-            "fileVersion": "2022.3.544.0"
+            "assemblyVersion": "2022.3.625.0",
+            "fileVersion": "2022.3.625.0"
           }
         }
       }
@@ -1147,12 +1147,12 @@
       "path": "system.windows.extensions/6.0.0",
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
     },
-    "devDept.Geometry.v2022/2022.3.544.0": {
+    "devDept.Geometry.v2022/2022.3.625.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "devDept.Graphics.Shaders.v2022/2022.3.544.0": {
+    "devDept.Graphics.Shaders.v2022/2022.3.625.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
