@@ -19,15 +19,19 @@
   <ItemGroup>
     <Reference Include="devDept.Eyeshot.Control.Win.v2022">
       <HintPath>..\..\lib\net6.0\devDept.Eyeshot.Control.Win.v2022.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="devDept.Geometry.v2022">
       <HintPath>..\..\lib\net6.0\devDept.Geometry.v2022.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="devDept.Graphics.Shaders.v2022">
       <HintPath>..\..\lib\net6.0\devDept.Graphics.Shaders.v2022.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="devDept.Graphics.Win.v2022">
       <HintPath>..\..\lib\net6.0\devDept.Graphics.Win.v2022.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
 
