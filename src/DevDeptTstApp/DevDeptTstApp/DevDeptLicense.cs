@@ -15,7 +15,7 @@
         }
 
         //devDept.LicenseManager.Unlock(Key);
-        devDept.LicenseManager.Unlock(typeof(devDept.Eyeshot.Workspace), key);
+        devDept.LicenseManager.Unlock(key);
 
         isInited = true;
       }
