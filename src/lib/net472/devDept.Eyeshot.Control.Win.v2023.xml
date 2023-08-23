@@ -2966,19 +2966,32 @@
     </member>
     <member name="M:devDept.Eyeshot.Control.SketchManager.CreateMirrorConstraint(devDept.Eyeshot.Entities.Entity,devDept.Eyeshot.Entities.Entity,devDept.Eyeshot.Entities.Line)">
       <summary>
-            Adds a mirror constraint between  two entites.
+            Adds a mirror constraint between  two entities.
             </summary>
       <param name="e1">The first entity.</param>
       <param name="e2">The second entity.</param>
       <param name="axis">The symmetry axis.</param>
       <returns>The newly created constraint.</returns>
     </member>
+    <member name="M:devDept.Eyeshot.Control.SketchManager.CreateAngleConstraint(devDept.Eyeshot.Entities.Point,devDept.Eyeshot.Entities.Point,devDept.Eyeshot.Entities.Point,System.Double,System.Boolean,devDept.Geometry.Point2D)">
+      <summary>
+            Adds an angle constraint on the input points triad.
+            </summary>
+      <param name="firstPoint">The first point</param>
+      <param name="centerPoint">The center point</param>
+      <param name="secondPoint">The second point</param>
+      <param name="value">Optional, the desired angle value in radians.</param>
+      <param name="reference">Optional, when true the constraint is considered only as reference.</param>
+      <param name="dimLinePos">Optional, the dimension line position.</param>
+      <returns>
+      </returns>
+    </member>
     <member name="M:devDept.Eyeshot.Control.SketchManager.CreateAngleConstraint(devDept.Eyeshot.Entities.Arc,System.Double,System.Boolean,devDept.Geometry.Point2D)">
       <summary>
             Adds an angle constraint on the input arc.
             </summary>
       <param name="arc">The arc.</param>
-      <param name="value">Optional, the desired distance value.</param>
+      <param name="value">Optional, the desired angle value in radians.</param>
       <param name="reference">Optional, when true the constraint is considered only as reference.</param>
       <param name="dimLinePos">Optional, the dimension line position.</param>
       <returns>The newly created constraint.</returns>
@@ -2993,7 +3006,7 @@
       <param name="quadrantPoint">A point in one of the four sectors formed by the two
             lines (considering them as infinite). The angle constraint will be applied in
             the quadrant where the point lies.</param>
-      <param name="value">Optional, the desired distance value.</param>
+      <param name="value">Optional, the desired angle value in radians.</param>
       <param name="reference">Optional, when true the constraint is considered only as reference.</param>
       <param name="dimLinePos">Optional, the dimension line position.</param>
       <returns>The newly created constraint.</returns>
@@ -6213,7 +6226,7 @@
       <summary>
             Draws an image on the <see cref="T:devDept.Eyeshot.Control.Workspace" />'s client area.
             </summary>
-      <param name="x">The image's x corrdinate</param>
+      <param name="x">The image's x coordinate</param>
       <param name="y">The image's y coordinate (from the bottom of the viewport)</param>
       <param name="image">The image to draw</param>
       <remarks>Alpha channel is supported. Use the <see cref="M:System.Drawing.Image.RotateFlip(System.Drawing.RotateFlipType)" /> method to flip the image upside down.</remarks>
@@ -6539,7 +6552,7 @@
             Gets the visual refinement deviation value used by the <see cref="M:devDept.Eyeshot.EntityList.Regen(devDept.Eyeshot.RegenOptions)" /> method. It's estimated automatically from the root block extents.
             </summary>
       <returns>The estimated deviation</returns>
-      <remarks>Can be overridden to return a custom value.</remarks>
+      <remarks>To return a custom value the <see cref="M:devDept.Eyeshot.Document.GetVisualRefinementDeviation" /> method can be overridden.</remarks>
     </member>
     <member name="M:devDept.Eyeshot.Control.Workspace.ProcessSemiTransparent">
       <summary>
@@ -7255,12 +7268,13 @@
       <remarks>If the file exists, it's overwritten.</remarks>
       <remarks>To get a 32-bit image with transparent background set the <see cref="P:devDept.Eyeshot.Control.BackgroundSettings.StyleMode" /> to <see cref="F:devDept.Graphics.backgroundStyleType.None" />.</remarks>
     </member>
-    <member name="M:devDept.Eyeshot.Control.Workspace.WriteToFileVector(System.Boolean,System.String)">
+    <member name="M:devDept.Eyeshot.Control.Workspace.WriteToFileVector(System.Boolean,System.String,System.Boolean)">
       <summary>
             Saves a vectorial image of the current scene of the active viewport on disk in EMF format.
             </summary>
       <param name="fit">If true fits the entire model in the viewport area to captures the whole scene, else uses the current camera</param>
       <param name="fileName">The name of the file to save</param>
+      <param name="async">When true, the work is run asynchronously, otherwise no. (Default value is true).</param>
       <seealso cref="T:devDept.Eyeshot.Control.HiddenLinesViewOnFile" />
       <remarks>If the file exists, it's overwritten.</remarks>
     </member>
@@ -7706,7 +7720,17 @@
       <param name="selectionBox">Selection rectangle's in screen coordinates</param>
       <param name="selectableOnly">When true, checks the <see cref="P:devDept.Eyeshot.Entities.Entity.Selectable" /> property, otherwise no.</param>
       <returns>The list of entity indices.</returns>
-      <remarks>All entities in the selectionBox are considered, even the ones covered by others.</remarks>
+      <remarks>All entities in the selectionBox are considered, even the ones covered by others. Only the top level entities are retrieved.</remarks>
+      <seealso cref="M:devDept.Eyeshot.Control.Workspace.GetAllEntitiesUnderMouseCursor(System.Drawing.Point,System.Boolean)" />
+    </member>
+    <member name="M:devDept.Eyeshot.Control.Workspace.GetAllCrossingEntitiesLeaf(System.Drawing.Rectangle,System.Boolean)">
+      <summary>
+            Returns the list of all the visible and selectable entities geometrically crossing the selection box, regardless of their actual visibility on screen.
+            </summary>
+      <param name="selectionBox">Selection rectangle's in screen coordinates</param>
+      <param name="selectableOnly">When true, checks the <see cref="P:devDept.Eyeshot.Entities.Entity.Selectable" /> property, otherwise no.</param>
+      <returns>The list of the retrieved <see cref="T:devDept.Eyeshot.SelectedItem" />.</returns>
+      <remarks>All entities in the selectionBox are considered, even the ones covered by others. It takes into account <see cref="F:devDept.Eyeshot.Control.Workspace.assemblySelectionMode" /> filter.</remarks>
       <seealso cref="M:devDept.Eyeshot.Control.Workspace.GetAllEntitiesUnderMouseCursor(System.Drawing.Point,System.Boolean)" />
     </member>
     <member name="M:devDept.Eyeshot.Control.Workspace.GetCrossingEntities(System.Drawing.Rectangle,System.Boolean,System.Boolean)">
@@ -7715,6 +7739,20 @@
             </summary>
       <param name="selectionBox">Selection Rectangle box in screen coordinates</param>
       <param name="firstOnly">When true, returns immediately after selecting the first entity</param>
+      <param name="selectableOnly">When true, checks the <see cref="P:devDept.Eyeshot.Entities.Entity.Selectable" /> property, otherwise no.</param>
+      <returns>An array of indices representing the selected entity position.</returns>
+      <remarks>
+        <para>All entities in the selectionBox are considered, even the ones covered by others.</para>
+        <para>Affected by selection scope (<see cref="!:Design.SetSelectionScope()" />).</para>
+      </remarks>
+    </member>
+    <member name="M:devDept.Eyeshot.Control.Workspace.GetCrossingEntities(System.Drawing.Rectangle,System.Boolean,System.Collections.Generic.List{devDept.Eyeshot.SelectedItem}@,System.Boolean)">
+      <summary>
+            Returns the list of all the visible and selectable entities crossing the specified selection box.
+            </summary>
+      <param name="selectionBox">Selection Rectangle box in screen coordinates</param>
+      <param name="firstOnly">When true, returns immediately after selecting the first entity</param>
+      <param name="leafSelectionInfo">It contains all the <see cref="T:devDept.Eyeshot.SelectedItem" /> when performing a <see cref="F:devDept.Eyeshot.Control.Workspace.assemblySelectionType.Leaf" /> selection.</param>
       <param name="selectableOnly">When true, checks the <see cref="P:devDept.Eyeshot.Entities.Entity.Selectable" /> property, otherwise no.</param>
       <returns>An array of indices representing the selected entity position.</returns>
       <remarks>
@@ -7732,6 +7770,18 @@
       <param name="selectableOnly">When true, checks the <see cref="P:devDept.Eyeshot.Entities.Entity.Selectable" /> property, otherwise no.</param>
       <param name="accParentTransform">Accumulated parent transformation or null/Nothing</param>
       <returns>An array of indices representing the selected entity position.</returns>
+      <remarks>All entities in the selectionBox are considered, even the ones covered by others. Only the top level entities are retrieved.</remarks>
+    </member>
+    <member name="M:devDept.Eyeshot.Control.Workspace.GetCrossingEntitiesLeaf(System.Drawing.Rectangle,System.Collections.Generic.IList{devDept.Eyeshot.Entities.Entity},System.Boolean,System.Boolean,devDept.Geometry.Transformation)">
+      <summary>
+            Returns the list of all the visible and selectable entities crossing the specified selection box.
+            </summary>
+      <param name="selectionBox">Selection Rectangle box in screen coordinates</param>
+      <param name="entList">A custom list of entities</param>
+      <param name="firstOnly">When true, returns immediately after selecting the first entity</param>
+      <param name="selectableOnly">When true, checks the <see cref="P:devDept.Eyeshot.Entities.Entity.Selectable" /> property, otherwise no.</param>
+      <param name="accParentTransform">Accumulated parent transformation or null/Nothing</param>
+      <returns>The list of the retrieved <see cref="T:devDept.Eyeshot.SelectedItem" />.</returns>
       <remarks>All entities in the selectionBox are considered, even the ones covered by others.</remarks>
     </member>
     <member name="M:devDept.Eyeshot.Control.Workspace.ProcessSelectionEnclosed(System.Drawing.Rectangle,System.Boolean,System.Boolean,System.Int32[]@,System.Collections.Generic.List{System.Int32})">
@@ -7761,7 +7811,15 @@
             Selects all entities completely enclosed in the specified selection rectangle.
             </summary>
       <param name="selectionBox">Selection rectangle's in screen coordinates</param>
-      <returns>The list of entity indices.</returns>
+      <returns>The list of entity indices. Only the top level entities are retrieved.</returns>
+    </member>
+    <member name="M:devDept.Eyeshot.Control.Workspace.GetAllEnclosedEntitiesLeaf(System.Drawing.Rectangle)">
+      <summary>
+            Selects all entities completely enclosed in the specified selection rectangle.
+            </summary>
+      <param name="selectionBox">Selection rectangle's in screen coordinates</param>
+      <returns>The list of the retrieved <see cref="T:devDept.Eyeshot.SelectedItem" />.</returns>
+      <remarks>It takes into account <see cref="F:devDept.Eyeshot.Control.Workspace.assemblySelectionMode" /> filter.</remarks>
     </member>
     <member name="M:devDept.Eyeshot.Control.Workspace.SetColorDrawForSelectionAndUpdateIdItemsMap``1(devDept.Eyeshot.DrawForSelectionParams,devDept.Eyeshot.ISelectableItem,System.Int32,System.Int32)">
       <summary>
@@ -11172,10 +11230,16 @@
             </summary>
     </member>
     <member name="P:devDept.Eyeshot.Control.Grid.Min">
-      <summary>Gets or sets the grid minimum 2D point relative to the grid plane.</summary>
+      <summary>
+            Gets or sets the grid minimum 2D point relative to the grid plane.
+            </summary>
+      <seealso cref="P:devDept.Eyeshot.Control.Grid.AutoSize" />
     </member>
     <member name="P:devDept.Eyeshot.Control.Grid.Max">
-      <summary>Gets or sets the grid maximum 2D point relative to the grid plane.</summary>
+      <summary>
+            Gets or sets the grid maximum 2D point relative to the grid plane.
+            </summary>
+      <seealso cref="P:devDept.Eyeshot.Control.Grid.AutoSize" />
     </member>
     <member name="P:devDept.Eyeshot.Control.Grid.Step">
       <summary>
@@ -11212,6 +11276,8 @@
             When true, the grid is resized automatically every time the design's bounding box changes.
             </summary>
       <seealso cref="M:devDept.Eyeshot.Control.Grid.ComputeAutomaticSize(devDept.Geometry.Point3D,devDept.Geometry.Point3D,System.Double)" />
+      <seealso cref="P:devDept.Eyeshot.Control.Grid.Min" />
+      <seealso cref="P:devDept.Eyeshot.Control.Grid.Max" />
     </member>
     <member name="P:devDept.Eyeshot.Control.Grid.Visible">
       <summary>
@@ -14765,6 +14831,18 @@
             </summary>
       <param name="designDocument">The <see cref="T:devDept.Eyeshot.DesignDocument" />.</param>
       <exception cref="T:devDept.EyeshotException">Thrown when trying to set a <see cref="T:devDept.Eyeshot.Document" /> already linked to another <see cref="T:devDept.Eyeshot.Control.Workspace" />.</exception>
+      <seealso cref="M:devDept.Eyeshot.Control.Design.UnloadDocument" />
+      <seealso cref="P:devDept.Eyeshot.Document.IsLoaded" />
+    </member>
+    <member name="M:devDept.Eyeshot.Control.Design.UnloadDocument">
+      <summary>
+            Unloads the <see cref="P:devDept.Eyeshot.Control.Design.Document" /> from the control and loads a new one.
+            </summary>
+      <returns>
+            The unloaded Document.
+            </returns>
+      <seealso cref="M:devDept.Eyeshot.Control.Design.LoadDocument(devDept.Eyeshot.DesignDocument)" />
+      <seealso cref="P:devDept.Eyeshot.Document.IsLoaded" />
     </member>
     <member name="P:devDept.Eyeshot.Control.Design.Viewports">
       <summary>
@@ -15628,6 +15706,18 @@
             </summary>
       <param name="drawingDocument">The <see cref="T:devDept.Eyeshot.DrawingDocument" />.</param>
       <exception cref="T:devDept.EyeshotException">Thrown when trying to set a <see cref="T:devDept.Eyeshot.Document" /> already linked to another <see cref="T:devDept.Eyeshot.Control.Workspace" />.</exception>
+      <seealso cref="M:devDept.Eyeshot.Control.Drawing.UnloadDocument" />
+      <seealso cref="P:devDept.Eyeshot.Document.IsLoaded" />
+    </member>
+    <member name="M:devDept.Eyeshot.Control.Drawing.UnloadDocument">
+      <summary>
+            Unloads the <see cref="P:devDept.Eyeshot.Control.Drawing.Document" /> from the control and loads a new one.
+            </summary>
+      <returns>
+            The unloaded Document.
+            </returns>
+      <seealso cref="M:devDept.Eyeshot.Control.Drawing.LoadDocument(devDept.Eyeshot.DrawingDocument)" />
+      <seealso cref="P:devDept.Eyeshot.Document.IsLoaded" />
     </member>
     <member name="P:devDept.Eyeshot.Control.Drawing.ZoomFactor">
       <summary>
