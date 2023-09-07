@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  devdepttstapp:
+    image: ${DOCKER_REGISTRY-}devdepttstapp
+    build:
+      context: .
+      dockerfile: DevDeptTstApp\Dockerfile

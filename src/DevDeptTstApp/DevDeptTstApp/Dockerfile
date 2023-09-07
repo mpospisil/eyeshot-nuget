@@ -1,24 +1,23 @@
-FROM mpospisil/dotnet-runtime-windowsdesktop:6.0.18-nanoserver-ltsc2022 AS base
-#FROM mpospisil/dotnet-runtime-windowsdesktop:6.0.18-windowsservercore-ltsc2022 AS base
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
+#For more information, please see https://aka.ms/containercompat
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS base
+WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
+COPY ["DevDeptTstApp/DevDeptTstApp.csproj", "DevDeptTstApp/"]
+RUN dotnet restore "DevDeptTstApp/DevDeptTstApp.csproj"
 COPY . .
-RUN dotnet restore "src/DevDeptTstApp/DevDeptTstApp.sln"
-
-#COPY . .
-#WORKDIR "/src/DevDeptTstApp/DevDeptTstApp"
-#RUN dotnet build "DevDeptTstApp.csproj" -c Release -o /app/build
-#RUN dotnet restore "src/DevDeptTstApp/DevDeptTstApp.sln"
-RUN dotnet build "src/DevDeptTstApp/DevDeptTstApp.sln" -c Release 
+WORKDIR "/src/DevDeptTstApp"
+RUN dotnet build "DevDeptTstApp.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "src/DevDeptTstApp/DevDeptTstApp/DevDeptTstApp.csproj" -f net6.0-windows -c Release -o /app/publish /p:UseAppHost=true --runtime win-x64 
+RUN dotnet publish "DevDeptTstApp.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
-#COPY --from=publish /src/API_Example1/bin/Release/net6.0-windows .
 COPY --from=publish /app/publish .
-
 ENTRYPOINT ["dotnet", "DevDeptTstApp.dll"]
-#ENTRYPOINT ["powershell.exe"]
