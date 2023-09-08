@@ -11,7 +11,7 @@
           "Microsoft.CSharp": "4.7.0",
           "Microsoft.Windows.Compatibility": "6.0.0",
           "System.Resources.Extensions": "6.0.0",
-          "devDept.Eyeshot.v2023": "2023.2.550.0"
+          "devDept.Eyeshot.v2023": "2023.2.567.0"
         },
         "runtime": {
           "devDept.Eyeshot.Control.Win.v2023.dll": {}
@@ -709,11 +709,11 @@
           "System.Drawing.Common": "6.0.0"
         }
       },
-      "devDept.Eyeshot.v2023/2023.2.550.0": {
+      "devDept.Eyeshot.v2023/2023.2.567.0": {
         "runtime": {
           "devDept.Eyeshot.v2023.dll": {
-            "assemblyVersion": "2023.2.550.0",
-            "fileVersion": "2023.2.550.0"
+            "assemblyVersion": "2023.2.567.0",
+            "fileVersion": "2023.2.567.0"
           }
         }
       }
@@ -1138,7 +1138,7 @@
       "path": "system.windows.extensions/6.0.0",
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
     },
-    "devDept.Eyeshot.v2023/2023.2.550.0": {
+    "devDept.Eyeshot.v2023/2023.2.567.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

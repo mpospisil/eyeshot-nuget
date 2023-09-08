@@ -6018,13 +6018,6 @@
       <remarks>The mesh must be closed and the triangles winding order uniform</remarks>
       <seealso cref="M:devDept.Eyeshot.Entities.Mesh.FixNormals" />
     </member>
-    <member name="M:devDept.Eyeshot.Entities.Mesh.TransformBy(devDept.Geometry.Transformation)">
-      <summary>
-            Transforms all the entity's vertices by the specified transformation. 
-            </summary>
-      <remarks>In case of Mirror transformation you may need to flip triangles and call <see cref="M:devDept.Eyeshot.Entities.Mesh.UpdateNormals" />.</remarks>
-      <param name="transform">The transformation to be applied</param>
-    </member>
     <member name="M:devDept.Eyeshot.Entities.Mesh.ConvertToSolid">
       <summary>
              Converts this mesh to a <see cref="T:devDept.Eyeshot.Entities.Solid" /> object.
@@ -8162,12 +8155,12 @@
     </member>
     <member name="M:devDept.Eyeshot.Entities.Entity.TransformBy(devDept.Geometry.Transformation)">
       <summary>
-            Transforms all the entity's vertices by the specified transformation.
+            Moves, scales, or rotates this entity given a 4x4 transformation matrix.
             </summary>
       <remarks>
             You need to call <see cref="M:devDept.Eyeshot.EntityList.Regen(devDept.Eyeshot.RegenOptions)" /> to see the effect of this command.
             </remarks>
-      <param name="transform">The transformation to be applied</param>
+      <param name="xform">The transformation.</param>
     </member>
     <member name="M:devDept.Eyeshot.Entities.Entity.Translate(System.Double,System.Double,System.Double)">
       <summary>
@@ -13150,6 +13143,17 @@
       <param name="p">The degree</param>
       <param name="n">The degree of the derivation</param>
     </member>
+    <member name="M:devDept.Eyeshot.Entities.KnotVectorExtender.Get(devDept.Geometry.Point4D[0:,0:],System.Int32,System.Int32,System.Boolean)">
+      <summary>
+            Returns pw[u, v] if <paramref name="dir" /> is true, otherwise returns pw[v, u].
+            </summary>
+    </member>
+    <member name="M:devDept.Eyeshot.Entities.KnotVectorExtender.Num(devDept.Geometry.Point4D[0:,0:],System.Boolean)">
+      <summary>
+            Returns the number of control points along U if <paramref name="dir" /> is true,
+            otherwise returns the number of control points along V.
+            </summary>
+    </member>
     <member name="T:devDept.Eyeshot.Entities.knotVectorType">
       <summary>
             Knot vector style type.
@@ -14146,13 +14150,6 @@
             </summary>
       <param name="point">The 3D point</param>
       <returns>True if the 3D point is inside the mesh, false otherwise.</returns>
-    </member>
-    <member name="M:devDept.Eyeshot.Entities.Solid.TransformBy(devDept.Geometry.Transformation)">
-      <summary>
-            Applies transformation matrix on 3D object
-            </summary>
-      <param name="transform">
-      </param>
     </member>
     <member name="M:devDept.Eyeshot.Entities.Solid.UpdateAngles">
       <summary>
@@ -16417,6 +16414,17 @@
         <para>The resulting Brep can't be used to perform boolean operations anymore.</para>
         <para>You need to manually set the parent Brep RegenMode as RegenAndCompile after calling this method.</para>
       </remarks>
+    </member>
+    <member name="M:devDept.Eyeshot.Entities.Brep.Face.InitDrawTessellation">
+      <summary>
+            To be invoked at compile time. Initializes the draw tessellation and returns true if this face should be drawn
+            using <see cref="F:devDept.Eyeshot.Entities.Brep.Face.drawTessellation" /> rather than <see cref="F:devDept.Eyeshot.Entities.Brep.Face.Tessellation" />. Otherwise, returns false and sets
+            <see cref="F:devDept.Eyeshot.Entities.Brep.Face.drawTessellation" /> to null.
+            </summary>
+      <returns>
+            True if <see cref="F:devDept.Eyeshot.Entities.Brep.Face.drawTessellation" /> is valid and should be used instead of <see cref="F:devDept.Eyeshot.Entities.Brep.Face.Tessellation" />
+            to draw this face.
+            </returns>
     </member>
     <member name="T:devDept.Eyeshot.Entities.Brep.Loop">
       <summary>
@@ -18722,22 +18730,22 @@
       <param name="offsetSurf">The resulting offset surface</param>
       <returns>True if the operation is succeful, false otherwise.</returns>
     </member>
-    <member name="F:devDept.Eyeshot.Entities.Surface.leftEdge">
+    <member name="P:devDept.Eyeshot.Entities.Surface.leftEdge">
       <summary>
             Surface's bottom pole or tip.
             </summary>
     </member>
-    <member name="F:devDept.Eyeshot.Entities.Surface.topEdge">
+    <member name="P:devDept.Eyeshot.Entities.Surface.topEdge">
       <summary>
             Surface's right pole or tip.
             </summary>
     </member>
-    <member name="F:devDept.Eyeshot.Entities.Surface.rightEdge">
+    <member name="P:devDept.Eyeshot.Entities.Surface.rightEdge">
       <summary>
             Surface's top pole or tip.
             </summary>
     </member>
-    <member name="F:devDept.Eyeshot.Entities.Surface.bottomEdge">
+    <member name="P:devDept.Eyeshot.Entities.Surface.bottomEdge">
       <summary>
             Surface's left pole or tip.
             </summary>
@@ -27339,6 +27347,14 @@
             and that edge already has both a mum and dad triangle (every edge can be shared
             by at most two triangles in order to maintain a valid list of <see cref="P:devDept.Eyeshot.MeshEditor.SharedEdges" />).
             </exception>
+    </member>
+    <member name="M:devDept.Eyeshot.MeshEditor.DeleteOrphanVertex(System.Int32)">
+      <summary>
+            Marks the specified orphan vertex as dead (see <see cref="M:devDept.Eyeshot.MeshEditor.IsVertexDead(System.Int32)" />). An orphan vertex is
+            a vertex without any adjacent triangles.
+            </summary>
+      <param name="v">The index of the orphan vertex in the <see cref="P:devDept.Eyeshot.MeshEditor.Vertices" /> array.</param>
+      <exception cref="T:System.ArgumentException">Thrown if the specified vertex is not an orphan.</exception>
     </member>
     <member name="T:devDept.Eyeshot.TextureMappingData">
       <summary>
@@ -55796,6 +55812,15 @@
         </list>
       </returns>
     </member>
+    <member name="M:devDept.Geometry.PolyRegion2D.TransformBy(devDept.Geometry.Transformation)">
+      <summary>
+            Transforms all the vertices by the specified transformation.
+            </summary>
+      <remarks>
+            You need to call <see cref="M:devDept.Geometry.PolyRegion2D.UpdateBoundingRect" /> after calling this method.
+            </remarks>
+      <param name="xform">The transformation to be applied</param>
+    </member>
     <member name="T:devDept.Geometry.PointExtender">
       <summary>Point3D Extender.</summary>
     </member>
@@ -60943,9 +60968,9 @@
     </member>
     <member name="M:devDept.Geometry.AnalyticSurf.TransformBy(devDept.Geometry.Transformation)">
       <summary>
-            Transforms this analytic surface by the provided transformation.
+            Moves, scales, or rotates this surface given a 4x4 transformation matrix.
             </summary>
-      <param name="transform">The transformation</param>
+      <param name="xform">The transformation.</param>
     </member>
     <member name="T:devDept.Geometry.TabulatedSurf">
       <summary>
